@@ -1,0 +1,108 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "My StatefulSet Helm Chart",
+    "type": "object",
+    "properties": {
+      "replicaCount": {
+        "type": "integer",
+        "default": 3,
+        "minimum": 1,
+        "description": "The number of replicas for the StatefulSet."
+      },
+      "image": {
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "default": "nginx",
+            "description": "The Docker repository for the container image."
+          },
+          "tag": {
+            "type": "string",
+            "default": "stable",
+            "description": "The tag of the container image."
+          },
+          "pullPolicy": {
+            "type": "string",
+            "enum": ["Always", "IfNotPresent", "Never"],
+            "default": "IfNotPresent",
+            "description": "The image pull policy."
+          }
+        },
+        "required": ["repository", "tag", "pullPolicy"],
+        "additionalProperties": false
+      },
+      "service": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+            "default": "ClusterIP",
+            "description": "The type of Kubernetes Service."
+          },
+          "port": {
+            "type": "integer",
+            "default": 80,
+            "minimum": 1,
+            "maximum": 65535,
+            "description": "The port on which the service is exposed."
+          }
+        },
+        "required": ["type", "port"],
+        "additionalProperties": false
+      },
+      "statefulset": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "my-stateful-app",
+            "description": "The name of the StatefulSet."
+          },
+          "containerPort": {
+            "type": "integer",
+            "default": 80,
+            "minimum": 1,
+            "maximum": 65535,
+            "description": "The port exposed by the container in the StatefulSet."
+          },
+          "storage": {
+            "type": "object",
+            "properties": {
+              "accessMode": {
+                "type": "string",
+                "enum": ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"],
+                "default": "ReadWriteOnce",
+                "description": "The access mode for the persistent volume."
+              },
+              "size": {
+                "type": "string",
+                "pattern": "^[0-9]+(Gi|Mi)$",
+                "default": "1Gi",
+                "description": "The size of the persistent volume claim."
+              }
+            },
+            "required": ["accessMode", "size"],
+            "additionalProperties": false
+          },
+          "volumeClaimTemplate": {
+            "type": "object",
+            "properties": {
+              "storageClassName": {
+                "type": "string",
+                "description": "The storage class to use for the persistent volume claim."
+              }
+            },
+            "required": ["storageClassName"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["name", "containerPort", "storage", "volumeClaimTemplate"],
+        "additionalProperties": false
+      }
+    },
+    "required": ["replicaCount", "image", "service", "statefulset"],
+    "additionalProperties": false
+  }
+  

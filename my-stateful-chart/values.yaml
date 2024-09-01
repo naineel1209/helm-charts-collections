@@ -1,0 +1,19 @@
+replicaCount: 3
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+statefulset:
+  name: my-stateful-app
+  containerPort: 80
+  storage:
+    accessMode: ReadWriteOnce
+    size: 1Gi
+  volumeClaimTemplate:
+    storageClassName: standard
