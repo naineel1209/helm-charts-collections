@@ -1,0 +1,70 @@
+# Default values for simple-logger Helm chart.
+
+# Number of pod replicas
+replicaCount: 1
+
+# Container image details
+image:
+  repository: "ttl.sh/simple-logger-2002:2d"
+  pullPolicy: "Always"
+  tag: "latest"
+
+# Image pull secrets for private registries
+imagePullSecrets: []
+# Example:
+# imagePullSecrets:
+#   - name: myregistrykey
+
+# Annotations for the pods
+podAnnotations: {}
+
+# Resource requests and limits
+resources: {}
+# Example:
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 64Mi
+
+# Tolerations for tainted nodes
+tolerations: []
+# Example:
+# tolerations:
+#   - key: "key"
+#     operator: "Equal"
+#     value: "value"
+#     effect: "NoSchedule"
+
+# Node selector (used to control which nodes the pods are scheduled on)
+nodeSelector: {}
+# Example:
+# nodeSelector:
+#   disktype: ssd
+
+# Affinity rules for scheduling pods based on custom rules
+affinity: {}
+# Example:
+# affinity:
+#   nodeAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: disktype
+#           operator: In
+#           values:
+#           - ssd
+
+# Service Account settings (if needed)
+serviceAccount:
+  create: false
+  name: ""
+
+# Container environment variables
+env: []
+# Example:
+# env:
+#   - name: LOG_LEVEL
+#     value: "debug"

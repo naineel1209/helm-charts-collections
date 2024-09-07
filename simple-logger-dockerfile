@@ -1,0 +1,12 @@
+# Use a minimal base image
+FROM alpine:latest
+
+# Install bash and coreutils (for random number generation)
+RUN apk add --no-cache bash coreutils
+
+# Create a script that logs a counter and random string
+COPY log-script.sh /log-script.sh
+RUN chmod +x /log-script.sh
+
+# Run the script
+CMD ["/log-script.sh"]
